@@ -1,0 +1,32 @@
+{
+  "name": "at-seo",
+  "description": "SeoBase & Structured data",
+  "private": true,
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Oleksii Tymoshenko <buildmnt@gmail.com>",
+  "keywords": [
+    "js",
+	"react",
+	"seo"
+  ],
+  "main": "index.js",
+  "homepage": "https://github.com/alextim/at-seo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextim/at-seo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alextim/at-seo/issues"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "peerDependencies": {
+	"react": ">=17.0.1",
+	"react-helmet": ">=6.1.0"
+  }
+}

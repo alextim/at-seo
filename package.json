@@ -7,10 +7,16 @@
   "author": "Oleksii Tymoshenko <buildmnt@gmail.com>",
   "keywords": [
     "js",
-	"react",
-	"seo"
+    "react",
+    "seo"
   ],
-  "main": "index.js",
+  "source": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "unpkg": "dist/index.umd.js",
+  "engines": {
+    "node": ">=10"
+  },
   "homepage": "https://github.com/alextim/at-seo",
   "repository": {
     "type": "git",
@@ -20,13 +26,16 @@
     "url": "https://github.com/alextim/at-seo/issues"
   },
   "scripts": {
+    "build": "microbundle-crl --no-compress --format modern,cjs"
   },
   "dependencies": {
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
+    "microbundle-crl": "^0.13.11",
+    "react": "^17.0.1"
   },
   "peerDependencies": {
-    "react": ">=17.0.1",
-    "react-helmet": ">=6.1.0"
+    "react": ">=17.0.1"
   }
 }

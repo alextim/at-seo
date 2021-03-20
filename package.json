@@ -1,7 +1,6 @@
 {
-  "name": "at-seo",
+  "name": "@alextim/at-seo",
   "description": "SeoBase & Structured data",
-  "private": true,
   "version": "0.0.1",
   "license": "MIT",
   "author": "Oleksii Tymoshenko <buildmnt@gmail.com>",
@@ -18,10 +17,7 @@
     "node": ">=10"
   },
   "homepage": "https://github.com/alextim/at-seo",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/alextim/at-seo.git"
-  },
+  "repository": "git://github.com/alextim/at-seo.git",
   "bugs": {
     "url": "https://github.com/alextim/at-seo/issues"
   },
@@ -37,5 +33,8 @@
   },
   "peerDependencies": {
     "react": ">=17.0.1"
-  }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }  
 }

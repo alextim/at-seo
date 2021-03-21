@@ -2,7 +2,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var React = _interopDefault(require('react'));
 var reactHelmet = require('react-helmet');
-var Utils = _interopDefault(require('at-utils'));
+var utils = _interopDefault(require('@alextim/utils'));
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -244,7 +244,7 @@ var getOrganizationSchema = function getOrganizationSchema(_ref2) {
 
       if (telephone) {
         o.telephone = telephone.reduce(function (acc, curr) {
-          return "" + acc + (acc ? ', ' : '') + Utils.formatPhone(curr);
+          return "" + acc + (acc ? ', ' : '') + utils.formatPhone(curr);
         }, '');
       }
 

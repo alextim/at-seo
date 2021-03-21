@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
+          check-latest: true
       - run: yarn install
       - run: yarn test
 
@@ -21,9 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 14
+          check-latest: true
           registry-url: https://npm.pkg.github.com/
           scope: '@alextim'
       - run: yarn install

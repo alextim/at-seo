@@ -1,4 +1,4 @@
-import Utils from 'at-utils';
+import utils from '@alextim/utils';
 
 const weekDays = {
   mo: 'Monday',
@@ -156,7 +156,7 @@ const getOrganizationSchema = ({
         };
         if (telephone) {
           o.telephone = telephone.reduce(
-            (acc, curr) => `${acc}${acc ? ', ' : ''}${Utils.formatPhone(curr)}`,
+            (acc, curr) => `${acc}${acc ? ', ' : ''}${utils.formatPhone(curr)}`,
             '',
           );
         }

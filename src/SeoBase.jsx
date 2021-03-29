@@ -47,71 +47,187 @@ const SeoBase = ({
 
   const metaTitle = title || siteTitle;
   const metaDescription = description || siteDescription;
+
+  
+  /** *
+   * https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Content-Language
+   *
+   * Не  используйте этот мета элемент как здесь для констатирования языка документа:
+   *
+   * <meta httpEquiv="content-language" content={htmlLang} />
+   *
+   *  */  
+  const meta = [
+    {
+      name: 'robots',
+      content: `${noindex ? 'no' : ''}index, follow`,
+    },
+    {
+      name: 'description',
+      content: metaDescription,
+    },
+    {
+      name: 'theme-color',
+      content: config.themeColor,
+    },
+    ...(metas || []),
+    {
+      name: 'og:locale',
+      content: ogLocale,
+    },
+    ...(i18n?.localeCodes
+      .filter((code) => code !== locale)
+      .map((code) => ({
+        name: 'og:locale:alternate',
+        content: i18n.locales[code].ogLocale,
+      })) || []),
+  ];
+
+  const og = [
+    {
+      name: 'og:site_name',
+      content: i18n.locales[locale].siteShortName,
+    },
+    {
+      name: 'og:url',
+      content: URL,
+    },
+    {
+      name: 'og:type',
+      content: isArticle ? 'article' : 'website',
+    },
+    {
+      name: 'og:title',
+      content: metaTitle,
+    },
+    {
+      name: 'og:description',
+      content: metaDescription,
+    },
+    {
+      name: 'og:image',
+      content: imgURL || ogImage.src,
+    },
+    {
+      name: 'og:image:alt"',
+      content: metaDescription,
+    },
+  ];
+
+  if (config.fbAppID) {
+    og.push({
+      name: 'fb:app_id',
+      content: config.fbAppID,
+    });
+  }
+
+  if (socialLinks) {
+    if (socialLinks.facebook) {
+      og.push({
+        name: 'article:publisher',
+        content: socialLinks.facebook.to,
+      });
+    }
+    Array.prototype.push.apply(og, Object.keys(socialLinks).map((key) => ({ name: 'og:see_also', content: socialLinks[key].to })));
+  }
+
+  if (!imgURL) {
+    og.push({
+      name: 'og:image:width',
+      content: ogImage.width,
+    }, {
+      name: 'og:image:height',
+      content: ogImage.height,      
+    });   
+  }
+
+  Array.prototype.push.apply(meta, og);
+
+  const twitter = [
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:title',
+      content: metaTitle,
+    },
+    {
+      name: 'twitter:description',
+      content: metaDescription,
+    },
+    {
+      name: 'twitter:image',
+      content: imgURL || twitterImage.src,
+    },
+    {
+      name: 'twitter:image:alt',
+      content: metaDescription,
+    },
+  ];
+  
+  if (config.twitterCreator || config.twitterSite) {
+    twitter.push(
+      {
+        name: 'twitter:site',
+        content: config.twitterSite || config.twitterCreator,
+      },
+      {
+        name: 'twitter:creator',
+        content: config.twitterCreator || config.twitterSite,
+      },
+    );
+  }
+  
+  if (!imgURL) {
+    twitter.push(
+      {
+        name: 'twitter:image:width',
+        content: twitterImage.widt,
+      },
+      {
+        name: 'twitter:image:height',
+        content: twitterImage.height,
+      },
+    );    
+  }
+
+  Array.prototype.push.apply(meta, twitter);
+
+  const link = [
+    {
+      rel: 'author',
+      type: 'text/plain',
+      href: U`${config.siteUrl}/humans.txt`,
+    }
+  ];
+  
+  if (canonical) {
+    link.push({
+      rel: 'canonical',
+      href: URL,
+    });
+  }
+  
+  if (links) {
+    Array.prototype.push.apply(link, links);
+  }
+  
+  if (i18n) {
+    Array.prototype.push.apply(link, i18n.localeCodes.map((code) => ({
+      rel: 'alternate',
+      hrefLang: i18n.locales[code].htmlLang,
+      href: `${config.siteUrl}${i18n.localizePath(purePath, code)}`,
+    })));
+    link.push({
+      rel: 'alternate',
+      hrefLang: 'x-default',
+      href: `${config.siteUrl}${purePath}`,
+    });
+  }
+
   return (
-    <Helmet>
-      <html lang={htmlLang} />
-      <meta name="robots" content={`${noindex ? 'no' : ''}index, follow`} />
-      <title>{metaTitle}</title>
-      {i18n?.localeCodes.map((code) => (
-        <link
-          key={code}
-          rel="alternate"
-          hrefLang={i18n.locales[code].htmlLang}
-          href={`${config.siteUrl}${i18n.localizePath(purePath, code)}`}
-        />
-      ))}
-      {i18n && <link rel="alternate" hrefLang="x-default" href={`${config.siteUrl}${purePath}`} />}
-      {/** *
-       * https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Content-Language
-       *
-       * Не  используйте этот мета элемент как здесь для констатирования языка документа:
-       *
-       * <meta httpEquiv="content-language" content={htmlLang} />
-       *
-       *  */}
-      <meta name="description" content={metaDescription} />
-      {canonical && <link rel="canonical" href={URL} />}
-      {links && links.map(({ rel, href }) => <link key={href} rel={rel} href={href} />)}
-      <meta name="theme-color" content={config.themeColor} />
-      {metas &&
-        Object.keys(metas).map((name) => <meta key={name} name={name} content={metas[name]} />)}
-      {config.fbAppID && <meta property="fb:app_id" content={config.fbAppID} />}
-      <meta property="og:locale" content={ogLocale} />
-      {i18n?.localeCodes
-        .filter((code) => code !== locale)
-        .map((code) => (
-          <meta key={code} property="og:locale:alternate" content={i18n.locales[code].ogLocale} />
-        ))}
-      <meta property="og:site_name" content={i18n.locales[locale].siteShortName} />
-      {socialLinks && socialLinks.facebook && (
-        <meta property="article:publisher" content={socialLinks.facebook.to} />
-      )}
-      <meta property="og:url" content={URL} />
-      <meta property="og:type" content={isArticle ? 'article' : 'website'} />
-      <meta property="og:title" content={metaTitle} />
-      <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={imgURL || ogImage.src} />
-      <meta property="og:image:alt" content={metaDescription} />
-      {!imgURL && <meta property="og:image:width" content={ogImage.width} />}
-      {!imgURL && <meta property="og:image:height" content={ogImage.height} />}
-      {socialLinks &&
-        Object.keys(socialLinks).map((key) => (
-          <meta key={key} property="og:see_also" content={socialLinks[key].to} />
-        ))}
-      <meta name="twitter:card" content="summary_large_image" />
-      {(config.twitterCreator || config.twitterSite) && (
-        <>
-          <meta name="twitter:site" content={config.twitterSite || config.twitterCreator} />
-          <meta name="twitter:creator" content={config.twitterCreator || config.twitterSite} />
-        </>
-      )}
-      <meta name="twitter:title" content={metaTitle} />
-      <meta name="twitter:description" content={metaDescription} />
-      <meta name="twitter:image" content={imgURL || twitterImage.src} />
-      <meta name="twitter:image:alt" content={metaDescription} />
-      {!imgURL && <meta name="twitter:image:width" content={twitterImage.width} />}
-      {!imgURL && <meta name="twitter:image:height" content={twitterImage.height} />}
-      <link type="text/plain" href={`${config.siteUrl}/humans.txt`} rel="author" />
+    <Helmet htmlAttributes={{ lang: htmlLang }} title={metaTitle} meta={meta} link={link}>
       <script type="application/ld+json">
         {JSON.stringify(
           getWebSiteSchema({

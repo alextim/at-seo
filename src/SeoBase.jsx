@@ -90,10 +90,10 @@ const SeoBase = ({
       <meta property="og:type" content={isArticle ? 'article' : 'website'} />
       <meta property="og:title" content={metaTitle} />
       <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={ogImage.src} />
+      <meta property="og:image" content={imgURL || ogImage.src} />
       <meta property="og:image:alt" content={metaDescription} />
-      <meta property="og:image:width" content={ogImage.width} />
-      <meta property="og:image:height" content={ogImage.height} />
+      {!imgURL && <meta property="og:image:width" content={ogImage.width} />}
+      {!imgURL && <meta property="og:image:height" content={ogImage.height} />}
       {socialLinks &&
         Object.keys(socialLinks).map((key) => (
           <meta key={key} property="og:see_also" content={socialLinks[key].to} />
@@ -107,10 +107,10 @@ const SeoBase = ({
       )}
       <meta name="twitter:title" content={metaTitle} />
       <meta name="twitter:description" content={metaDescription} />
-      <meta name="twitter:image" content={twitterImage.src} />
+      <meta name="twitter:image" content={imgURL || twitterImage.src} />
       <meta name="twitter:image:alt" content={metaDescription} />
-      <meta name="twitter:image:width" content={twitterImage.width} />
-      <meta name="twitter:image:height" content={twitterImage.height} />
+      {!imgURL && <meta name="twitter:image:width" content={twitterImage.width} />}
+      {!imgURL && <meta name="twitter:image:height" content={twitterImage.height} />}
       <link type="text/plain" href={`${config.siteUrl}/humans.txt`} rel="author" />
       <script type="application/ld+json">
         {JSON.stringify(

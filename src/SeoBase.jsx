@@ -48,7 +48,6 @@ const SeoBase = ({
   const metaTitle = title || siteTitle;
   const metaDescription = description || siteDescription;
 
-  
   /** *
    * https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Content-Language
    *
@@ -56,7 +55,7 @@ const SeoBase = ({
    *
    * <meta httpEquiv="content-language" content={htmlLang} />
    *
-   *  */  
+   *  */
   const meta = [
     {
       name: 'robots',
@@ -70,7 +69,6 @@ const SeoBase = ({
       name: 'theme-color',
       content: config.themeColor,
     },
-    ...(metas || []),
     {
       name: 'og:locale',
       content: ogLocale,
@@ -114,6 +112,19 @@ const SeoBase = ({
     },
   ];
 
+  if (!imgURL) {
+    og.push(
+      {
+        name: 'og:image:width',
+        content: ogImage.width,
+      },
+      {
+        name: 'og:image:height',
+        content: ogImage.height,
+      },
+    );
+  }
+
   if (config.fbAppID) {
     og.push({
       name: 'fb:app_id',
@@ -128,20 +139,14 @@ const SeoBase = ({
         content: socialLinks.facebook.to,
       });
     }
-    Array.prototype.push.apply(og, Object.keys(socialLinks).map((key) => ({ name: 'og:see_also', content: socialLinks[key].to })));
+    Array.prototype.push.apply(
+      og,
+      Object.keys(socialLinks).map((key) => ({
+        name: 'og:see_also',
+        content: socialLinks[key].to,
+      })),
+    );
   }
-
-  if (!imgURL) {
-    og.push({
-      name: 'og:image:width',
-      content: ogImage.width,
-    }, {
-      name: 'og:image:height',
-      content: ogImage.height,      
-    });   
-  }
-
-  Array.prototype.push.apply(meta, og);
 
   const twitter = [
     {
@@ -165,7 +170,19 @@ const SeoBase = ({
       content: metaDescription,
     },
   ];
-  
+  if (!imgURL) {
+    twitter.push(
+      {
+        name: 'twitter:image:width',
+        content: twitterImage.widt,
+      },
+      {
+        name: 'twitter:image:height',
+        content: twitterImage.height,
+      },
+    );
+  }
+
   if (config.twitterCreator || config.twitterSite) {
     twitter.push(
       {
@@ -178,47 +195,35 @@ const SeoBase = ({
       },
     );
   }
-  
-  if (!imgURL) {
-    twitter.push(
-      {
-        name: 'twitter:image:width',
-        content: twitterImage.widt,
-      },
-      {
-        name: 'twitter:image:height',
-        content: twitterImage.height,
-      },
-    );    
-  }
-
-  Array.prototype.push.apply(meta, twitter);
 
   const link = [
     {
       rel: 'author',
       type: 'text/plain',
-      href: U`${config.siteUrl}/humans.txt`,
-    }
+      href: `${config.siteUrl}/humans.txt`,
+    },
   ];
-  
+
   if (canonical) {
     link.push({
       rel: 'canonical',
       href: URL,
     });
   }
-  
+
   if (links) {
     Array.prototype.push.apply(link, links);
   }
-  
+
   if (i18n) {
-    Array.prototype.push.apply(link, i18n.localeCodes.map((code) => ({
-      rel: 'alternate',
-      hrefLang: i18n.locales[code].htmlLang,
-      href: `${config.siteUrl}${i18n.localizePath(purePath, code)}`,
-    })));
+    Array.prototype.push.apply(
+      link,
+      i18n.localeCodes.map((code) => ({
+        rel: 'alternate',
+        hrefLang: i18n.locales[code].htmlLang,
+        href: `${config.siteUrl}${i18n.localizePath(purePath, code)}`,
+      })),
+    );
     link.push({
       rel: 'alternate',
       hrefLang: 'x-default',
@@ -227,7 +232,12 @@ const SeoBase = ({
   }
 
   return (
-    <Helmet htmlAttributes={{ lang: htmlLang }} title={metaTitle} meta={meta} link={link}>
+    <Helmet
+      htmlAttributes={{ lang: htmlLang }}
+      title={metaTitle}
+      meta={[...meta, ...og, ...twitter, ...(metas || [])]}
+      link={link}
+    >
       <script type="application/ld+json">
         {JSON.stringify(
           getWebSiteSchema({

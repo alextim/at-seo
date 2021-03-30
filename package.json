@@ -9,32 +9,19 @@
     "react",
     "seo"
   ],
-  "source": "src/index.js",
-  "main": "dist/index.js",
-  "module": "dist/index.modern.js",
-  "unpkg": "dist/index.umd.js",
-  "engines": {
-    "node": ">=10"
-  },
+  "main": "src/index.js",
   "homepage": "https://github.com/alextim/at-seo",
   "repository": "git://github.com/alextim/at-seo.git",
   "bugs": {
     "url": "https://github.com/alextim/at-seo/issues"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
     "test": "echo \"Write tests!\" && exit 0"
-  },
-  "dependencies": {
-    "react-helmet": "^6.1.0"
-  },
-  "devDependencies": {
-    "microbundle-crl": "^0.13.11",
-    "react": "^17.0.2"
   },
   "peerDependencies": {
     "@alextim/utils": ">=0.1.0",
-    "react": ">=17.0.2"
+    "react": ">=17.0.2",
+    "react-helmet": ">=6.1.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

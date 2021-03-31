@@ -311,6 +311,7 @@ var SeoBase = function SeoBase(_ref) {
       imgPath = _ref.imgPath,
       datePublished = _ref.datePublished,
       dateModified = _ref.dateModified,
+      tags = _ref.tags,
       canonical = _ref.canonical,
       noindex = _ref.noindex,
       metas = _ref.metas,
@@ -392,6 +393,31 @@ var SeoBase = function SeoBase(_ref) {
       property: 'og:image:height',
       content: ogImage.height
     });
+  }
+
+  if (isArticle) {
+    if (datePublished) {
+      og.push({
+        property: 'article:published_time',
+        content: datePublished
+      });
+    }
+
+    if (dateModified) {
+      og.push({
+        property: 'article:modified_time',
+        content: dateModified
+      });
+    }
+
+    if (tags && Array.isArray(tags)) {
+      tags.forEach(function (tag) {
+        og.push({
+          property: 'article:tag',
+          content: tag
+        });
+      });
+    }
   }
 
   if (config.fbAppID) {

@@ -158,7 +158,7 @@ const SeoBase = ({
   if (socialLinks) {
     if (socialLinks.facebook) {
       og.push({
-        name: 'article:publisher',
+        property: 'article:publisher',
         content: socialLinks.facebook.to,
       });
     }

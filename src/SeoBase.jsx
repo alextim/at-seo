@@ -21,6 +21,7 @@ const SeoBase = ({
   imgPath,
   datePublished,
   dateModified,
+  tags,
   canonical,
   noindex,
   metas,
@@ -111,7 +112,6 @@ const SeoBase = ({
       content: metaDescription,
     },
   ];
-
   if (!imgURL) {
     og.push(
       {
@@ -123,6 +123,29 @@ const SeoBase = ({
         content: ogImage.height,
       },
     );
+  }
+
+  if (isArticle) {
+    if (datePublished) {
+      og.push({
+        property: 'article:published_time',
+        content: datePublished,
+      });
+    }
+    if (dateModified) {
+      og.push({
+        property: 'article:modified_time',
+        content: dateModified,
+      });
+    }
+    if (tags && Array.isArray(tags)) {
+      tags.forEach((tag) => {
+        og.push({
+          property: 'article:tag',
+          content: tag,
+        });
+      });
+    }
   }
 
   if (config.fbAppID) {

@@ -351,52 +351,52 @@ var SeoBase = function SeoBase(_ref) {
     name: 'theme-color',
     content: config.themeColor
   }, {
-    name: 'og:locale',
+    property: 'og:locale',
     content: ogLocale
   }].concat((i18n === null || i18n === void 0 ? void 0 : i18n.localeCodes.filter(function (code) {
     return code !== locale;
   }).map(function (code) {
     return {
-      name: 'og:locale:alternate',
+      property: 'og:locale:alternate',
       content: i18n.locales[code].ogLocale
     };
   })) || []);
   var og = [{
-    name: 'og:site_name',
+    property: 'og:site_name',
     content: i18n.locales[locale].siteShortName
   }, {
-    name: 'og:url',
+    property: 'og:url',
     content: URL
   }, {
-    name: 'og:type',
+    property: 'og:type',
     content: isArticle ? 'article' : 'website'
   }, {
-    name: 'og:title',
+    property: 'og:title',
     content: metaTitle
   }, {
-    name: 'og:description',
+    property: 'og:description',
     content: metaDescription
   }, {
-    name: 'og:image',
+    property: 'og:image',
     content: imgURL || ogImage.src
   }, {
-    name: 'og:image:alt"',
+    property: 'og:image:alt"',
     content: metaDescription
   }];
 
   if (!imgURL) {
     og.push({
-      name: 'og:image:width',
+      property: 'og:image:width',
       content: ogImage.width
     }, {
-      name: 'og:image:height',
+      property: 'og:image:height',
       content: ogImage.height
     });
   }
 
   if (config.fbAppID) {
     og.push({
-      name: 'fb:app_id',
+      property: 'fb:app_id',
       content: config.fbAppID
     });
   }
@@ -411,7 +411,7 @@ var SeoBase = function SeoBase(_ref) {
 
     Array.prototype.push.apply(og, Object.keys(socialLinks).map(function (key) {
       return {
-        name: 'og:see_also',
+        property: 'og:see_also',
         content: socialLinks[key].to
       };
     }));

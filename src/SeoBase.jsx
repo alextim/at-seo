@@ -70,44 +70,44 @@ const SeoBase = ({
       content: config.themeColor,
     },
     {
-      name: 'og:locale',
+      property: 'og:locale',
       content: ogLocale,
     },
     ...(i18n?.localeCodes
       .filter((code) => code !== locale)
       .map((code) => ({
-        name: 'og:locale:alternate',
+        property: 'og:locale:alternate',
         content: i18n.locales[code].ogLocale,
       })) || []),
   ];
 
   const og = [
     {
-      name: 'og:site_name',
+      property: 'og:site_name',
       content: i18n.locales[locale].siteShortName,
     },
     {
-      name: 'og:url',
+      property: 'og:url',
       content: URL,
     },
     {
-      name: 'og:type',
+      property: 'og:type',
       content: isArticle ? 'article' : 'website',
     },
     {
-      name: 'og:title',
+      property: 'og:title',
       content: metaTitle,
     },
     {
-      name: 'og:description',
+      property: 'og:description',
       content: metaDescription,
     },
     {
-      name: 'og:image',
+      property: 'og:image',
       content: imgURL || ogImage.src,
     },
     {
-      name: 'og:image:alt"',
+      property: 'og:image:alt"',
       content: metaDescription,
     },
   ];
@@ -115,11 +115,11 @@ const SeoBase = ({
   if (!imgURL) {
     og.push(
       {
-        name: 'og:image:width',
+        property: 'og:image:width',
         content: ogImage.width,
       },
       {
-        name: 'og:image:height',
+        property: 'og:image:height',
         content: ogImage.height,
       },
     );
@@ -127,7 +127,7 @@ const SeoBase = ({
 
   if (config.fbAppID) {
     og.push({
-      name: 'fb:app_id',
+      property: 'fb:app_id',
       content: config.fbAppID,
     });
   }
@@ -142,7 +142,7 @@ const SeoBase = ({
     Array.prototype.push.apply(
       og,
       Object.keys(socialLinks).map((key) => ({
-        name: 'og:see_also',
+        property: 'og:see_also',
         content: socialLinks[key].to,
       })),
     );

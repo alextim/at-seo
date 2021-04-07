@@ -197,7 +197,7 @@ const SeoBase = ({
     twitter.push(
       {
         name: 'twitter:image:width',
-        content: twitterImage.widt,
+        content: twitterImage.width,
       },
       {
         name: 'twitter:image:height',

@@ -508,44 +508,55 @@ var SeoBase = function SeoBase(_ref) {
     });
   }
 
+  var scriptType = 'application/ld+json';
+  var scripts = [{
+    type: scriptType,
+    innerHTML: JSON.stringify(getWebSiteSchema({
+      siteUrl: config.siteUrl,
+      siteTitle: siteTitle,
+      siteDescription: siteDescription,
+      htmlLang: htmlLang
+    }))
+  }, {
+    type: scriptType,
+    innerHTML: JSON.stringify(getPageSchema({
+      organizationName: orgAddress.name,
+      siteUrl: config.siteUrl,
+      siteLogo: config.siteLogo,
+      URL: URL,
+      headline: headline || metaDescription,
+      metaTitle: metaTitle,
+      metaDescription: metaDescription,
+      htmlLang: htmlLang,
+      imgURL: imgURL,
+      datePublished: datePublished,
+      dateModified: dateModified,
+      pageType: pageType
+    }))
+  }];
+
+  if (isRoot) {
+    scripts.push({
+      type: scriptType,
+      innerHTML: JSON.stringify(getOrganizationSchema({
+        orgContacts: orgContacts,
+        orgAddress: orgAddress,
+        config: config,
+        homeURL: homeURL,
+        socialLinks: socialLinks
+      }))
+    });
+  }
+
   return /*#__PURE__*/React.createElement(Helmet, {
     htmlAttributes: {
       lang: htmlLang
     },
     title: metaTitle,
     meta: [].concat(meta, og, twitter, metas || []),
-    link: [].concat(link, links || [])
-  }, /*#__PURE__*/React.createElement("script", {
-    type: "application/ld+json"
-  }, JSON.stringify(getWebSiteSchema({
-    siteUrl: config.siteUrl,
-    siteTitle: siteTitle,
-    siteDescription: siteDescription,
-    htmlLang: htmlLang
-  }))), /*#__PURE__*/React.createElement("script", {
-    type: "application/ld+json"
-  }, JSON.stringify(getPageSchema({
-    organizationName: orgAddress.name,
-    siteUrl: config.siteUrl,
-    siteLogo: config.siteLogo,
-    URL: URL,
-    headline: headline || metaDescription,
-    metaTitle: metaTitle,
-    metaDescription: metaDescription,
-    htmlLang: htmlLang,
-    imgURL: imgURL,
-    datePublished: datePublished,
-    dateModified: dateModified,
-    pageType: pageType
-  }))), isRoot && /*#__PURE__*/React.createElement("script", {
-    type: "application/ld+json"
-  }, JSON.stringify(getOrganizationSchema({
-    orgContacts: orgContacts,
-    orgAddress: orgAddress,
-    config: config,
-    homeURL: homeURL,
-    socialLinks: socialLinks
-  }))));
+    link: [].concat(link, links || []),
+    script: scripts
+  });
 };
 
 export { SeoBase, getPageSchema };

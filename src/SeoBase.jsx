@@ -250,55 +250,63 @@ const SeoBase = ({
     });
   }
 
+  const scriptType = 'application/ld+json';
+  const scripts = [
+    {
+      type: scriptType,
+      innerHTML: JSON.stringify(
+        getWebSiteSchema({
+          siteUrl: config.siteUrl,
+          siteTitle,
+          siteDescription,
+          htmlLang,
+        }),
+      ),
+    },
+    {
+      type: scriptType,
+      innerHTML: JSON.stringify(
+        getPageSchema({
+          organizationName: orgAddress.name,
+          siteUrl: config.siteUrl,
+          siteLogo: config.siteLogo,
+          URL,
+          headline: headline || metaDescription,
+          metaTitle,
+          metaDescription,
+          htmlLang,
+          imgURL,
+          datePublished,
+          dateModified,
+          pageType,
+        }),
+      ),
+    },
+  ];
+
+  if (isRoot) {
+    scripts.push({
+      type: scriptType,
+      innerHTML: JSON.stringify(
+        getOrganizationSchema({
+          orgContacts,
+          orgAddress,
+          config,
+          homeURL,
+          socialLinks,
+        }),
+      ),
+    });
+  }
+
   return (
     <Helmet
       htmlAttributes={{ lang: htmlLang }}
       title={metaTitle}
       meta={[...meta, ...og, ...twitter, ...(metas || [])]}
       link={[...link, ...(links || [])]}
-    >
-      <script type="application/ld+json">
-        {JSON.stringify(
-          getWebSiteSchema({
-            siteUrl: config.siteUrl,
-            siteTitle,
-            siteDescription,
-            htmlLang,
-          }),
-        )}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(
-          getPageSchema({
-            organizationName: orgAddress.name,
-            siteUrl: config.siteUrl,
-            siteLogo: config.siteLogo,
-            URL,
-            headline: headline || metaDescription,
-            metaTitle,
-            metaDescription,
-            htmlLang,
-            imgURL,
-            datePublished,
-            dateModified,
-            pageType,
-          }),
-        )}
-      </script>
-      {isRoot && (
-        <script type="application/ld+json">
-          {JSON.stringify(
-            getOrganizationSchema({
-              orgContacts,
-              orgAddress,
-              config,
-              homeURL,
-              socialLinks,
-            }),
-          )}
-        </script>
-      )}
-    </Helmet>
+      script={scripts}
+    />
   );
 };
 

@@ -28,6 +28,7 @@ var getWebSiteSchema = function getWebSiteSchema(_ref) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': siteUrl + "/#WebSite",
     url: siteUrl,
     name: siteTitle,
     description: siteDescription,
@@ -183,7 +184,7 @@ var getOrganizationSchema = function getOrganizationSchema(_ref2) {
   var schema = {
     '@context': 'https://schema.org',
     '@type': organizationType,
-    '@id': config.siteUrl,
+    '@id': config.siteUrl + "/#Organization",
     name: organizationName,
     description: description,
     url: config.siteUrl,

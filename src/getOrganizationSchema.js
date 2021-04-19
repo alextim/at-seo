@@ -104,7 +104,7 @@ const getOrganizationSchema = ({
   const schema = {
     '@context': 'https://schema.org',
     '@type': organizationType,
-    '@id': config.siteUrl,
+    '@id': `${config.siteUrl}/#Organization`,
     name: organizationName,
     description,
     url: config.siteUrl,

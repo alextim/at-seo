@@ -198,7 +198,7 @@ const getOrganizationSchema = ({
       schema.openingHours = getOpeningHours(openingHours, dows);
     }
     */
-    schema.OpeningHoursSpecification = getOpeningHoursSpecification(openingHours);
+    schema.openingHoursSpecification = getOpeningHoursSpecification(openingHours);
   }
 
   if (hasMap) {

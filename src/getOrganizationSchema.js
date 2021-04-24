@@ -116,15 +116,18 @@ const getOrganizationSchema = ({
       : config.siteBusinessPhoto;
   }
 
-  let postalAddressObj;
   if (postalAddress) {
-    postalAddressObj = {
+    const o = {
       '@type': 'PostalAddress',
       ...postalAddress,
-      streetAddress: postalAddress.streetAddress && postalAddress.streetAddress.join(', '),
     };
-    schema.address = postalAddressObj;
+    if (postalAddress.streetAddress) {
+      o.streetAddress = postalAddress.streetAddress.join(', ');
+    }
+    delete o.addressCountryName;
+    schema.address = o;
   }
+
   if (legalName) {
     schema.legalName = legalName;
   }
@@ -133,10 +136,10 @@ const getOrganizationSchema = ({
   }
 
   if (organizationPhone) {
-    schema.telephone = `+${organizationPhone[0]}`;
+    schema.telephone = utils.formatPhone(organizationPhone[0]);
   }
   if (organizationEmail) {
-    schema.email = `mailto:${organizationEmail[0]}`;
+    schema.email = organizationEmail[0];
   }
 
   if (geo) {
@@ -169,13 +172,6 @@ const getOrganizationSchema = ({
         return o;
       },
     );
-  } else {
-    if (organizationEmail) {
-      schema.email = organizationEmail.join();
-    }
-    if (organizationPhone) {
-      schema.telephone = organizationPhone.join();
-    }
   }
 
   if (socialLinks) {

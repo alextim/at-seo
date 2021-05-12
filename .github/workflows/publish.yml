@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: 14.x
       - run: yarn install
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: 14.x
       - uses: actions/download-artifact@main
@@ -56,7 +56,7 @@ jobs:
         uses: manovotny/github-releases-for-automated-package-publishing-action@v1.0.0                   
       
       - name: Set node version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: 14.x
           registry-url: https://npm.pkg.github.com/

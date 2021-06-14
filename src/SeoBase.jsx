@@ -13,6 +13,7 @@ const SeoBase = ({
   orgAddress,
   socialLinks,
   title,
+  keywords,
   headline,
   description,
   locale,
@@ -81,6 +82,13 @@ const SeoBase = ({
         content: i18n.locales[code].ogLocale,
       })) || []),
   ];
+  if (keywords) {
+    meta.push(
+      {
+        name: 'keywords',
+        content: keywords,
+      });
+  }
 
   const og = [
     {
